@@ -1,5 +1,4 @@
 var app = app || {};
-//var Detector = require('detector.js');
 
 app.init = function () {
 
@@ -10,7 +9,6 @@ app.init = function () {
   app.height = window.innerHeight;
 
   //(field of view, ration, near, far )
-  //near and far is a range from how close it ll be and how far from the screen
   app.camera = new THREE.PerspectiveCamera(100, app.width / app.height, 1, 1000);
   app.camera.position.z = 200;
 
@@ -21,8 +19,7 @@ app.init = function () {
 
 
   //checks if webgl is not supported replaces it with canvas
-  //app.renderer = Detector.webgl ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
-  app.renderer = new THREE.WebGLRenderer();
+  app.renderer = Detector.webgl ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
   app.renderer.setSize(app.width, app.height);
 
   document.body.appendChild(app.renderer.domElement);
@@ -54,13 +51,16 @@ app.animate = function () {
 
   app.sphere.rotation.y += 0.001;
 
-  //pas in scene and camera, a combining step
+  //a combining step
   app.renderer.render(app.scene, app.camera);
 };
 
 window.onload = app.init;
 
-function onMouseWheel(event) {
+
+//on mouse wheel move/touchpad view is zooming in/out
+onMouseWheel = function(event) {
+
   if (event.wheelDeltaY) {                      // WebKit
     app.camera.fov -= event.wheelDeltaY * 0.05;
   } else if (event.wheelDelta) {                // Opera / IE9
@@ -71,14 +71,15 @@ function onMouseWheel(event) {
 
   app.camera.fov = Math.max(40, Math.min(100, app.camera.fov));
   app.camera.updateProjectionMatrix();
-}
+};
 
 window.addEventListener('mousewheel', onMouseWheel, false);
 window.addEventListener('DOMMouseScroll', onMouseWheel, false);
 
+
+//if we change the window all inside will change appropriately
 window.addEventListener("resize", function () {
 
-  //if we change the window all inside will change appropriately
   app.width = window.innerWidth;
   app.height = window.innerHeight;
 
