@@ -42,11 +42,12 @@ app.init = function(){
 
 app.addSphere = function(){
 
-  var shape = new THREE.SphereGeometry(50, 16, 16);
+  var shape = new THREE.SphereGeometry(100, 32, 32);
   var material = new THREE.MeshBasicMaterial({
-    // map: texture,
-    color: 0x1A237E,
-    wireframe: true
+    //1600x800px image
+    map: THREE.ImageUtils.loadTexture('images/bergsjostolen.jpg')
+    //color: 0x1A237E
+    //wireframe: true
   });
 
   app.sphere = new THREE.Mesh(shape, material);
@@ -59,7 +60,7 @@ app.animate = function(){
 
   requestAnimationFrame(app.animate);
 
-  app.sphere.rotation.y += 0.02;
+  app.sphere.rotation.y += 0.001;
 
   //pas in scene and camera, a combining step
   app.renderer.render(app.scene, app.camera);
